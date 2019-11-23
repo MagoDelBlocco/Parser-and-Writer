@@ -78,11 +78,11 @@ class parser {
     template <typename T>
     inline parser& operator >> (T& n) {
         n &= 0;
+        for (; buffer[index] < '0' or buffer[index] > '9'; ++index);
 #ifdef SIGNED
         sign &= 0;
-        sign = (buffer[index - 1] == '-');
+        sign = (buffer[(index ? index - 1 : 0)] == '-');
 #endif
-        for (; buffer[index] < '0' or buffer[index] > '9'; ++index);
         for (; '0' <= buffer[index] and buffer[index] <= '9'; ++index)
             n = (n << 3) + (n << 1) + buffer[index] - '0';
 #ifdef SIGNED
